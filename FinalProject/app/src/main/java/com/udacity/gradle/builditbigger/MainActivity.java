@@ -1,19 +1,32 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+
+import com.example.olivi.androidjokelibrary.JokeActivity;
+
+import java.util.Random;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements JokeFetcher.JokeFetcherListener {
+
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    //a member field that will get random joke indices
+    //so we can *often* get a different joke on each button click
+    private Random mJokeIndexRandGen;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mJokeIndexRandGen = new Random();
+        Log.i(LOG_TAG, "MainActivity started and loaded");
     }
 
 
@@ -39,9 +52,15 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void tellJoke(View view){
-        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
+    public void tellJoke(View view) {
+        new JokeFetcher(this).fetchJoke(mJokeIndexRandGen.nextInt(11));
     }
 
-
+    @Override
+    public void jokeFetched(String joke) {
+        Log.i(LOG_TAG, "joke fetched! " + joke);
+        Intent i = new Intent(this, JokeActivity.class);
+        i.putExtra(JokeActivity.EXTRA_JOKE, joke);
+        startActivity(i);
+    }
 }
