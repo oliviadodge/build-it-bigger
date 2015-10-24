@@ -24,11 +24,12 @@ public class MainActivity extends ActionBarActivity implements JokeFetcher.JokeF
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     //a member field that will get random joke indices
     //so we can *often* get a different joke on each button click
-    private InterstitialAd mInterstitialAd;
-    private Random mJokeIndexRandGen;
-    private ProgressBar mSpinner;
-    private TextView mInstructionsTextView;
-    private Button mTellJokeButton;
+    boolean mStopSpinner;
+    InterstitialAd mInterstitialAd;
+    Random mJokeIndexRandGen;
+    ProgressBar mSpinner;
+    TextView mInstructionsTextView;
+    Button mTellJokeButton;
 
 
     @Override
@@ -36,13 +37,15 @@ public class MainActivity extends ActionBarActivity implements JokeFetcher.JokeF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.i(LOG_TAG, "onCreate() called");
+
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
                 requestNewInterstitial();
-                startJokeTask(null);
+                startJokeTask();
             }
         });
         requestNewInterstitial();
@@ -50,6 +53,8 @@ public class MainActivity extends ActionBarActivity implements JokeFetcher.JokeF
         mJokeIndexRandGen = new Random();
         Log.i(LOG_TAG, "MainActivity started and loaded");
     }
+
+
 
     //Helper method to start loading the interstitial ad
     private void requestNewInterstitial() {
@@ -61,20 +66,27 @@ public class MainActivity extends ActionBarActivity implements JokeFetcher.JokeF
     }
 
     public void tellJoke(View view) {
+        setUpViewReferences(view);
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
+            startSpinner();
         } else {
-            startJokeTask(view);
+            startJokeTask();
         }
     }
 
-    private void initializeSpinnner(View view) {
+    private void setUpViewReferences(View view) {
+        if (view != null) {
+            View rootView = view.getRootView();
+            mTellJokeButton = (Button) view;
+            mInstructionsTextView = (TextView) rootView.findViewById(R.id.instructions_text_view);
+            mSpinner = (ProgressBar) rootView.findViewById(R.id.progress_bar_joke);
+            Log.i(LOG_TAG, "view references set up and mSpinner is not null " + (mSpinner != null));
+        }
+    }
 
-        if (view != null && mTellJokeButton == null) {
-            mTellJokeButton = (Button) view.findViewById(R.id.button_tell_joke);
-            mInstructionsTextView = (TextView) view.findViewById(R.id.instructions_text_view);
-            mSpinner = (ProgressBar) view.findViewById(R.id.progress_bar_joke);
-
+    private void startSpinner() {
+        if (mTellJokeButton != null) {
             mTellJokeButton.setVisibility(View.GONE);
             mInstructionsTextView.setVisibility(View.GONE);
             mSpinner.setVisibility(View.VISIBLE);
@@ -82,9 +94,21 @@ public class MainActivity extends ActionBarActivity implements JokeFetcher.JokeF
     }
 
     private void stopSpinner() {
-        mSpinner.setVisibility(View.GONE);
-        mInstructionsTextView.setVisibility(View.VISIBLE);
-        mTellJokeButton.setVisibility(View.VISIBLE);
+        if (mSpinner != null) {
+            mSpinner.setVisibility(View.GONE);
+            mInstructionsTextView.setVisibility(View.VISIBLE);
+            mTellJokeButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mStopSpinner) {
+            stopSpinner();
+            mStopSpinner = false;
+        }
     }
 
     @Override
@@ -109,17 +133,18 @@ public class MainActivity extends ActionBarActivity implements JokeFetcher.JokeF
         return super.onOptionsItemSelected(item);
     }
 
-    public void startJokeTask(View view) {
-        initializeSpinnner(view);
+    public void startJokeTask() {
+        startSpinner();
         new JokeFetcher(this).fetchJoke(mJokeIndexRandGen.nextInt(11));
     }
 
     @Override
     public void jokeFetched(String joke) {
         Log.i(LOG_TAG, "joke fetched! " + joke);
-        stopSpinner();
         Intent i = new Intent(this, JokeActivity.class);
         i.putExtra(JokeActivity.EXTRA_JOKE, joke);
         startActivity(i);
+        mStopSpinner = true;
     }
+
 }
