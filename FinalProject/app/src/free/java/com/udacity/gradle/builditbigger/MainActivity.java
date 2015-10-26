@@ -24,13 +24,12 @@ public class MainActivity extends ActionBarActivity implements JokeFetcher.JokeF
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     //a member field that will get random joke indices
     //so we can *often* get a different joke on each button click
-    boolean mStopSpinner;
     InterstitialAd mInterstitialAd;
     Random mJokeIndexRandGen;
     ProgressBar mSpinner;
     TextView mInstructionsTextView;
     Button mTellJokeButton;
-
+    boolean mStopSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
