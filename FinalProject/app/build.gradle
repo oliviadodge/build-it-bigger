@@ -39,3 +39,7 @@ dependencies {
     // Added for AdMob
     freeCompile 'com.google.android.gms:play-services-ads:8.1.0'
 }
+
+afterEvaluate {
+    connectedAndroidTest.shouldRunAfter(":backend2:appengineRun")
+}

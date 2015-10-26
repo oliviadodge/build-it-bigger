@@ -48,7 +48,6 @@ public class MainActivity extends ActionBarActivity implements JokeFetcher.JokeF
             mTellJokeButton = (Button) view;
             mInstructionsTextView = (TextView) rootView.findViewById(R.id.instructions_text_view);
             mSpinner = (ProgressBar) rootView.findViewById(R.id.progress_bar_joke);
-            Log.i(LOG_TAG, "view references set up and mSpinner is not null " + (mSpinner != null));
         }
     }
 
