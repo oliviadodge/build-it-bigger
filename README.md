@@ -6,7 +6,9 @@ Other features include: paid and free flavors; interstitial and banner ads; conn
 
 ![](https://github.com/oliviadodge/build-it-bigger/blob/master/Screenshots/Screenshot_2016-01-29-15-46-20.png)
 
+![](https://github.com/oliviadodge/build-it-bigger/blob/master/Screenshots/Screenshot_2016-01-29-15-46-39.png)
+
 ![](https://github.com/oliviadodge/build-it-bigger/blob/master/Screenshots/Screenshot_2016-01-29-15-46-28.png)
 
-![](https://github.com/oliviadodge/build-it-bigger/blob/master/Screenshots/Screenshot_2016-01-29-15-46-39.png)
+
 
