@@ -6,6 +6,12 @@
         <option name="GRADLE_PROJECT_PATH" value=":backend2" />
       </configuration>
     </facet>
+    <facet type="java-gradle" name="Java-Gradle">
+      <configuration>
+        <option name="BUILD_FOLDER_PATH" value="$MODULE_DIR$/build" />
+        <option name="BUILDABLE" value="true" />
+      </configuration>
+    </facet>
     <facet type="app-engine-gradle" name="App Engine Gradle">
       <configuration>
         <option name="HTTP_ADDRESS" value="localhost" />
@@ -13,12 +19,6 @@
         <option name="WAR_DIR" value="C:\Users\olivi\OneDrive\Android\build-it-bigger\FinalProject\backend2\build\exploded-app" />
         <option name="WEB_APP_DIR" value="C:\Users\olivi\OneDrive\Android\build-it-bigger\FinalProject\backend2\src\main\webapp" />
         <option name="APPENGINE_SDKROOT" value="C:\Users\olivi\.gradle\appengine-sdk\appengine-java-sdk-1.9.27" />
-      </configuration>
-    </facet>
-    <facet type="java-gradle" name="Java-Gradle">
-      <configuration>
-        <option name="BUILD_FOLDER_PATH" value="$MODULE_DIR$/build" />
-        <option name="BUILDABLE" value="true" />
       </configuration>
     </facet>
   </component>
@@ -45,5 +45,6 @@
     <orderEntry type="library" exported="" name="appengine-endpoints-deps-1.9.27" level="project" />
     <orderEntry type="library" exported="" name="servlet-api-2.5" level="project" />
     <orderEntry type="library" exported="" name="appengine-api-1.0-sdk-1.9.27" level="project" />
+    <orderEntry type="library" exported="" name="backend2.backend2-android-endpoints" level="project" />
   </component>
 </module>
